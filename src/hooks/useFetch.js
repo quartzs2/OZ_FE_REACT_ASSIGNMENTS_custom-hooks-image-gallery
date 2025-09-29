@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-function useFetch({ url, options }) {
+function useFetch({ query, options }) {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -10,22 +10,17 @@ function useFetch({ url, options }) {
     setError(null);
 
     try {
-      const response = await fetch(url, options);
-      if (!response.ok) {
-        throw new Error(response.statusText); // 예시
-      }
-
-      const data = await response.json();
+      const data = await query();
       setData(data);
     } catch (e) {
       console.error(e);
       setError({
-        message: e.message, // 예시
+        message: e.message,
       });
     } finally {
       setIsLoading(false);
     }
-  }, [url, options]);
+  }, [query, options]);
 
   useEffect(() => {
     refetch();

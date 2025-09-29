@@ -1,9 +1,8 @@
-import { useEffect } from "react";
 import useFetch from "../hooks/useFetch";
 import GalleryContent from "./GalleryContent";
 
-function Gallery({ title, animalName, url }) {
-  const { data, isLoading, error, refetch } = useFetch({ url });
+function Gallery({ title, animalName, query }) {
+  const { data, isLoading, error, refetch } = useFetch({ query });
 
   return (
     <article className="gallery">
