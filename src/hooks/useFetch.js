@@ -10,7 +10,7 @@ function useFetch({ query, options }) {
     setError(null);
 
     try {
-      const data = await query();
+      const data = await query({options});
       setData(data);
     } catch (e) {
       console.error(e);
