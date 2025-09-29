@@ -1,20 +1,18 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from "react";
 
-function useFetch(url) {
+function useFetch({ url, options }) {
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const errorMessage = '이미지를 불러오지 못했습니다. 🥲';
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
+  const refetch = useCallback(async () => {
+    setIsLoading(true);
     setError(null);
-    setData(null);
 
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, options);
       if (!response.ok) {
-        throw new Error(errorMessage);
+        throw new Error(response.statusText); // 예시
       }
 
       const data = await response.json();
@@ -22,13 +20,17 @@ function useFetch(url) {
     } catch (e) {
       console.error(e);
       setError({
-        message: errorMessage,
+        message: e.message, // 예시
       });
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
-  }, [url]);
+  }, [url, options]);
 
-  return { data, loading, error, fetchData };
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  return { data, isLoading, error, refetch };
 }
 export default useFetch;

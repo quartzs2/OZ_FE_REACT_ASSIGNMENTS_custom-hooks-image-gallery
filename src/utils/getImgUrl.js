@@ -1,10 +1,10 @@
-import { ANIMAL_IMG_MAP } from '../constants/animalImgMap';
+import { ANIMAL_IMG_MAP } from "../constants/animalImgMap";
 
-function getImgUrl(data, animalName) {
-  if (!data) return '';
+function getImgUrl({ data, animalName }) {
+  if (!data) return "";
 
   const imgUrl = ANIMAL_IMG_MAP.get(animalName)(data);
-  return imgUrl ?? '';
+  return imgUrl ?? "";
 }
 
 export default getImgUrl;

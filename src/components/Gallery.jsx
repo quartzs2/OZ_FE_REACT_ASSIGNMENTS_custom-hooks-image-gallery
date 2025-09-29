@@ -1,26 +1,17 @@
-import { useEffect } from 'react';
-import useFetch from '../hooks/useFetch';
-import GalleryContent from './GalleryContent';
+import { useEffect } from "react";
+import useFetch from "../hooks/useFetch";
+import GalleryContent from "./GalleryContent";
 
 function Gallery({ title, animalName, url }) {
-  const { data, loading, error, fetchData } = useFetch(url);
-
-  useEffect(() => {
-    fetchData();
-  }, [url, fetchData]);
+  const { data, isLoading, error, refetch } = useFetch({ url });
 
   return (
     <article className="gallery">
       <h2>{title}</h2>
-      <button onClick={fetchData} disabled={loading}>
+      <button onClick={refetch} disabled={isLoading}>
         new {animalName}
       </button>
-      <GalleryContent
-        data={data}
-        loading={loading}
-        error={error}
-        animalName={animalName}
-      />
+      <GalleryContent data={data} isLoading={isLoading} error={error} animalName={animalName} />
     </article>
   );
 }
